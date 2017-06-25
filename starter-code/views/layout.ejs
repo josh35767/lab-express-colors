@@ -12,11 +12,17 @@
       <nav>
        <a href="/">Home</a>
        <a href="/allcolors">All Colors</a>
-       <a href="/blue">Blues</a>
-       <a href="/orange">Oranges</a>
-       <a href="/purple">Purple</a>
        <a href="/random">Random Color</a>
+       <div class = "dropdown">
+         <button class="drop_btn"> Colors </button>
+         <div class="drop-content">
+           <% colorsArray.forEach((colorCategory) => { %>
+             <a href="/category?cat=<%=colorCategory%>"> <%= titleCap(colorCategory) %> </a>
+           <% }) %>
+         </div>
+      </div>
       </nav>
+
     </header>
 
     <%- body %>

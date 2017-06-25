@@ -6,6 +6,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(expressLayouts);
+app.locals.titleCap = function (string) {   //Allows for capitalizing letters
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 //----------------------
 
@@ -14,29 +17,14 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/allcolors', (req, res, next) => {
+  let colorsArray = [...new Set(colors.map( color => color.category))];
+
   res.render('allcolors.ejs', {
-  colors: colors
+  colors: colors,
+  colorsArray: colorsArray
   });
 });
 
-app.get('/blue', (req, res, next) => {
-  res.render('blue.ejs', {
-  colors: colors
-  });
-
-});
-
-app.get('/orange', (req, res, next) => {
-  res.render('orange.ejs', {
-  colors: colors
-  });
-});
-
-app.get('/purple', (req, res, next) => {
-  res.render('purple.ejs', {
-  colors: colors
-  });
-});
 
 app.get('/random', (req, res, next) => {
   let randomIndex = Math.floor(Math.random()*colors.length);
@@ -46,8 +34,13 @@ app.get('/random', (req, res, next) => {
   });
 });
 
-
-
+app.get('/category', (req, res, next) => {
+  const colorChoice = req.query.cat;
+  res.render('category.ejs', {
+    colors: colors,
+    colorChoice: colorChoice
+  });
+});
 
 
 
@@ -109,7 +102,7 @@ const colors = [
   { keyword: 'darkslategray',        hex: '#2f4f4f', category: 'grayscale' },
   { keyword: 'darkslategrey',        hex: '#2f4f4f', category: 'grayscale' },
   { keyword: 'darkturquoise',        hex: '#00ced1', category: 'blue' },
-  { keyword: 'darkviolet',           hex: '#9400d3', category: 'puple' },
+  { keyword: 'darkviolet',           hex: '#9400d3', category: 'purple' },
   { keyword: 'deeppink',             hex: '#ff1493', category: 'pink' },
   { keyword: 'deepskyblue',          hex: '#00bfff', category: 'blue' },
   { keyword: 'dimgray',              hex: '#696969', category: 'grayscale' },
@@ -204,3 +197,5 @@ const colors = [
   { keyword: 'yellowgreen',          hex: '#9acd32', category: 'green' },
   { keyword: 'rebeccapurple',        hex: '#663399', category: 'purple' }
 ];
+
+app.locals.colorsArray = [...new Set(colors.map( color => color.category))];

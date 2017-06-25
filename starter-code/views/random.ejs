@@ -1,10 +1,12 @@
 <h2> RandomColor </h2>
 <ul>
   <% let color =  colors[randomIndex] %>
+    <div class="someRow">
     <li class="big">
       <div class="displaybox" style="background-color: <%= color.hex %>"></div>
       <%= color.keyword %>
       <%= color.hex %>
     </li>
+  </div>
 
 </ul>
